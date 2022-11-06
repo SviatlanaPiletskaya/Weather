@@ -186,30 +186,3 @@ public class SviatlanaPiletskayaTest {
 //        driver.close();
 //    }
 }
-
-
-
-
-/*import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-import runner.BaseTest;
-
-public class SviatlanaPiletskayaTest extends BaseTest {
-
-    @Test
-    public void testPageSales() {
-        getDriver().get("https://klinik.by/");
-        WebElement bottomSales = getDriver().findElement(By.xpath("//*[@id=\"menu-item-2570\"]/a[text() = 'Акции']"));
-
-        bottomSales.click();
-
-        WebElement pageSales = getDriver().findElement(By.xpath("//*[@id=\"page\"]//h1[text() ='Специальные предложения']"));
-
-        Assert.assertEquals(pageSales.getText(), "Специальные предложения");
-    }
-
-
-}*/
