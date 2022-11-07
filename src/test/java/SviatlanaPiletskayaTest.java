@@ -111,7 +111,7 @@ public class SviatlanaPiletskayaTest {
         Thread.sleep(5000);
 
         WebElement menuImperialByF = driver.findElement(
-                By.xpath("//*[@id=\"weather-widget\"]/div[1]/div/div/div[1]/div[2]/div[3]")
+                By.xpath("//div[@class='option'][contains(text(), 'F')]")
         );
 
         menuImperialByF.click();
@@ -251,4 +251,125 @@ public class SviatlanaPiletskayaTest {
         Assert.assertEquals(reCapthaText.getText(), expectedResultTextCAPTHA);
         driver.quit();
     }
+
+    /*TC_11_06
+1.  Открыть базовую ссылку
+2.  Нажать пункт меню Support → Ask a question
+3.  Оставить значение по умолчанию в checkbox Are you an OpenWeather user?
+4. Оставить пустым поле Email
+5. Заполнить поля  Subject, Message
+6. Подтвердить CAPTCHA
+7. Нажать кнопку Submit
+8. Подтвердить, что в поле Email пользователю будет показана ошибка “can't be blank”*/
+
+    @Test
+    public void testCaptchaWithEmptyEmail() throws InterruptedException {
+        System.setProperty("webdriver.chrome.driver", "/Users/svetikpileckaa/Applications/ChromeDriver/chromedriver");
+        WebDriver driver = new ChromeDriver();
+
+        String message = "Test";
+        String expectedResultTextCAPTHA = "can't be blank";
+
+        String url = "https://openweathermap.org/";
+        driver.get(url);
+        driver.manage().window().maximize();
+        Thread.sleep(5000);
+
+        WebElement elementSupport = driver.findElement(By.xpath("//div[@id='support-dropdown']"));
+        elementSupport.click();
+
+        WebElement subMenuAskAQuestion = driver.findElement(By.xpath("//a[@href='https://home.openweathermap.org/questions']"));
+        subMenuAskAQuestion.click();
+
+        String mainWind = driver.getWindowHandle();
+        for (String windowsHandle: driver.getWindowHandles()) {
+            if (!mainWind.contentEquals(windowsHandle)) {
+                driver.switchTo().window(windowsHandle);
+                break;
+            }
+        }
+        Thread.sleep(4000);
+
+        WebElement selectField = driver.findElement(By.xpath("//select[@class='form-control select required']"));
+        selectField.click();
+
+
+        WebElement selectFieldChoice = driver.findElement(By.xpath("//option[1]"));
+        selectFieldChoice.click();
+
+        WebElement inputMessage = driver.findElement(By.xpath("//textarea[@class='form-control text required']"));
+        inputMessage.sendKeys(message);
+        Thread.sleep(4000);
+
+        WebElement reCAPTCHA = driver.findElement(
+                By.xpath("//div[@class='recaptcha-checkbox-border']")
+        );
+        reCAPTCHA.click();
+        Thread.sleep(4000);
+
+        WebElement submitButton = driver.findElement(By.xpath("//input[@type='submit'][@name='commit']"));
+        submitButton.click();
+        Thread.sleep(6000);
+
+        WebElement reCapthaText = driver.findElement(By.xpath("//span[@class='help-block'] "));
+
+        Assert.assertEquals(reCapthaText.getText(), expectedResultTextCAPTHA);
+        driver.quit();
+    }
+
+    /*TC_11_07
+1.  Открыть базовую ссылку
+2.  Нажать на единицы измерения Imperial: °F, mph
+3.  Нажать на единицы измерения Metric: °C, m/s
+4.  Подтвердить, что в результате этих действий, единицы измерения температуры изменились с F на С*/
+    @Test
+    public void testChangingTemp() throws InterruptedException {
+        System.setProperty("webdriver.chrome.driver", "/Users/svetikpileckaa/Applications/ChromeDriver/chromedriver");
+        WebDriver driver = new ChromeDriver();
+
+        char expectedResult = 'C';
+        String url = "https://openweathermap.org/";
+        driver.get(url);
+        driver.manage().window().maximize();
+        Thread.sleep(2000);
+
+        WebElement changeTempToF = driver.findElement(By.xpath("//div[@class='option'][contains(text(), 'F')]"));
+        changeTempToF.click();
+        Thread.sleep(2000);
+
+        WebElement changeTempToC = driver.findElement(By.xpath("//div[@class='option'][contains(text(), 'C')]"));
+        changeTempToC.click();
+        Thread.sleep(2000);
+
+        String tempC = driver.findElement(By.xpath("//span[@class='heading'][contains(text(), 'C')]")).getText();
+        char actualResult = tempC.charAt(tempC.length()-1);
+
+
+        Assert.assertEquals(actualResult, expectedResult);
+        driver.quit();
+    }
+
+
+    /*TC_11_08
+1.  Открыть базовую ссылку
+2.  Нажать на лого компании
+3.  Дождаться, когда произойдет перезагрузка сайта, и подтвердить, что текущая ссылка не изменилась*/
+    @Test
+    public void reloadingSiteWithLogo() throws InterruptedException {
+        System.setProperty("webdriver.chrome.driver", "/Users/svetikpileckaa/Applications/ChromeDriver/chromedriver");
+        WebDriver driver = new ChromeDriver();
+
+        String url = "https://openweathermap.org/";
+        driver.get(url);
+        driver.manage().window().maximize();
+        Thread.sleep(2000);
+
+        WebElement imageBanner = driver.findElement(By.xpath("//img[@src='/themes/openweathermap/assets/img/logo_white_cropped.png']"));
+        imageBanner.click();
+        Thread.sleep(2000);
+
+        Assert.assertEquals(driver.getCurrentUrl(), url);
+        driver.quit();
+    }
+
 }
