@@ -262,7 +262,7 @@ public class SviatlanaPiletskayaTest {
 6. Подтвердить CAPTCHA
 7. Нажать кнопку Submit
 8. Подтвердить, что в поле Email пользователю будет показана ошибка “can't be blank”*/
-
+    @Ignore
     @Test
     public void testCaptchaWithEmptyEmail() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "/Users/svetikpileckaa/Applications/ChromeDriver/chromedriver");
