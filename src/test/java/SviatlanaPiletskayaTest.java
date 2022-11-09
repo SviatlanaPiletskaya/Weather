@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -261,7 +262,7 @@ public class SviatlanaPiletskayaTest {
 6. Подтвердить CAPTCHA
 7. Нажать кнопку Submit
 8. Подтвердить, что в поле Email пользователю будет показана ошибка “can't be blank”*/
-
+    @Ignore
     @Test
     public void testCaptchaWithEmptyEmail() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "/Users/svetikpileckaa/Applications/ChromeDriver/chromedriver");
@@ -282,7 +283,7 @@ public class SviatlanaPiletskayaTest {
         subMenuAskAQuestion.click();
 
         String mainWind = driver.getWindowHandle();
-        for (String windowsHandle: driver.getWindowHandles()) {
+        for (String windowsHandle : driver.getWindowHandles()) {
             if (!mainWind.contentEquals(windowsHandle)) {
                 driver.switchTo().window(windowsHandle);
                 break;
@@ -342,7 +343,7 @@ public class SviatlanaPiletskayaTest {
         Thread.sleep(2000);
 
         String tempC = driver.findElement(By.xpath("//span[@class='heading'][contains(text(), 'C')]")).getText();
-        char actualResult = tempC.charAt(tempC.length()-1);
+        char actualResult = tempC.charAt(tempC.length() - 1);
 
 
         Assert.assertEquals(actualResult, expectedResult);
@@ -361,7 +362,6 @@ public class SviatlanaPiletskayaTest {
 
         String url = "https://openweathermap.org/";
         driver.get(url);
-        driver.manage().window().maximize();
         Thread.sleep(2000);
 
         WebElement imageBanner = driver.findElement(By.xpath("//img[@src='/themes/openweathermap/assets/img/logo_white_cropped.png']"));
@@ -369,6 +369,48 @@ public class SviatlanaPiletskayaTest {
         Thread.sleep(2000);
 
         Assert.assertEquals(driver.getCurrentUrl(), url);
+        driver.quit();
+    }
+
+    /*TC_11_09
+1.  Открыть базовую ссылку
+2.  В строке поиска в навигационной панели набрать “Rome”
+3.  Нажать клавишу Enter
+4.  Подтвердить, что вы перешли на страницу в ссылке которой содержатся слова “find” и “Rome”
+5. Подтвердить, что в строке поиска на новой странице вписано слово “Rome”*/
+    @Test
+    public void searchForCityOfRome() throws InterruptedException {
+        System.setProperty("webdriver.chrome.driver", "/Users/svetikpileckaa/Applications/ChromeDriver/chromedriver");
+        WebDriver driver = new ChromeDriver();
+
+        String url = "https://openweathermap.org/";
+        String cityName = "Rome";
+        String searchValue = "find";
+        driver.get(url);
+        Thread.sleep(2000);
+
+        WebElement searchBar = driver.findElement(By.xpath("//div[@id='desktop-menu']//input[@placeholder='Weather in your city']"));
+        searchBar.click();
+        searchBar.sendKeys(cityName);
+        searchBar.sendKeys(Keys.ENTER);
+
+        Thread.sleep(2000);
+
+        String strUrl = driver.getCurrentUrl();
+
+        Boolean actualResult1 = false;
+
+        if (strUrl.contains(searchValue) && strUrl.contains(cityName)) {
+            actualResult1 = true;
+        }
+
+        Assert.assertTrue(actualResult1);
+
+        String actualResult2 = driver.findElement(
+                By.xpath("//input[@id='search_str']")
+        ).getAttribute("value");
+
+        Assert.assertEquals(actualResult2, "Rome");
         driver.quit();
     }
 
