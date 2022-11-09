@@ -17,7 +17,6 @@ public class SviatlanaPiletskayaTest {
     //3. Нажать пункт меню Search
     //4. Из выпадающего списка выбрать Paris, FR
     //5. Подтвердить, что заголовок изменился на "Paris, FR"
-
     @Test
     public void testH2TagText_WhenSearchingCityCountry() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "/Users/svetikpileckaa/Applications/ChromeDriver/chromedriver");
@@ -39,7 +38,6 @@ public class SviatlanaPiletskayaTest {
         WebElement searchButton = driver.findElement(
                 By.xpath("//div[@id = 'weather-widget']//button[@type='submit']")
         );
-
         searchButton.click();
 
         Thread.sleep(1000);
@@ -54,16 +52,13 @@ public class SviatlanaPiletskayaTest {
         );
 
         Thread.sleep(2000);
+
         String actualResult = h2CityCountryHeader.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
 
-//        Thread.sleep(5000);
-
         driver.quit();
-//        driver.close();
     }
-
 
     /*TC_11_01
 1.  Открыть базовую ссылку
@@ -86,6 +81,7 @@ public class SviatlanaPiletskayaTest {
                 By.xpath("//a[@href='/guide']")
         );
         guideElementMenu.click();
+
         String actualResultUrl = driver.getCurrentUrl();
         String actualResultTitle = driver.getTitle();
 
@@ -95,11 +91,10 @@ public class SviatlanaPiletskayaTest {
         driver.quit();
     }
 
-/*    TC_11_02
+    /*    TC_11_02
 1.  Открыть базовую ссылку
 2.  Нажать на единицы измерения Imperial: °F, mph
 3.  Подтвердить, что температура для города показана в Фарингейтах*/
-
     @Test
     public void testOnChangeImperial() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "/Users/svetikpileckaa/Applications/ChromeDriver/chromedriver");
@@ -109,14 +104,15 @@ public class SviatlanaPiletskayaTest {
         char expectedResult = 'F';
 
         driver.get(url);
-        Thread.sleep(5000);
+
+        Thread.sleep(2000);
 
         WebElement menuImperialByF = driver.findElement(
                 By.xpath("//div[@class='option'][contains(text(), 'F')]")
         );
-
         menuImperialByF.click();
-        Thread.sleep(5000);
+
+        Thread.sleep(2000);
 
         WebElement getImperialName = driver.findElement(
                 By.xpath("//span[@class = 'heading']")
@@ -124,13 +120,9 @@ public class SviatlanaPiletskayaTest {
 
         String newImperial = getImperialName.getText();
 
-        char actualResult = newImperial.charAt(newImperial.length() - 1);
-
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(newImperial.charAt(newImperial.length() - 1), expectedResult);
         driver.quit();
-
     }
-
 
     /*TC_11_03
 1.  Открыть базовую ссылку
@@ -148,26 +140,34 @@ public class SviatlanaPiletskayaTest {
 
         String url = "https://openweathermap.org/";
         driver.get(url);
-        Thread.sleep(5000);
 
-        WebElement elementWithCookiesOnPage = driver.findElement(By.xpath("//div[@class = 'stick-footer-panel__container']/p"));
-        WebElement buttonAllowAll = driver.findElement(By.xpath("//button[text()= 'Allow all']"));
-        WebElement buttonManageCookies = driver.findElement(By.xpath("//a[@href='/cookies-settings']"));
+        Thread.sleep(2000);
+
+        WebElement elementWithCookiesOnPage = driver.findElement(
+                By.xpath("//div[@class = 'stick-footer-panel__container']/p")
+        );
+        WebElement buttonAllowAll = driver.findElement(
+                By.xpath("//button[text()= 'Allow all']")
+        );
+        WebElement buttonManageCookies = driver.findElement(
+                By.xpath("//a[@href='/cookies-settings']")
+        );
 
         String actualResult = elementWithCookiesOnPage.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
+//        Assert.assertEquals(driver.findElements(By.xpath("//div[@class='stick-footer-panel__btn-container']/*")).size(), 2);
 
-        Assert.assertEquals(driver.findElements(By.xpath("//div[@class='stick-footer-panel__btn-container']/*")).size(), 2);
+        Assert.assertTrue(driver.findElement(
+                        By.xpath("//div[@class = 'stick-footer-panel__container']/*[text() = '" + button1Text + "]")
+        ).isDisplayed());
 
-//        Assert.assertTrue(driver.findElement(
-//                        By.xpath("//div[@class = 'stick-footer-panel__container']/*[text() = '" + button1Text + "]")).isDisplayed());
-//
-//        Assert.assertTrue(driver.findElement(
-//                        By.xpath("//div[@class = 'stick-footer-panel__container']/*[text() = '" + button2Text + "]")).isDisplayed());
+        Assert.assertTrue(driver.findElement(
+                        By.xpath("//div[@class = 'stick-footer-panel__container']/*[text() = '" + button2Text + "]")
+        ).isDisplayed());
 
-        Assert.assertEquals(buttonAllowAll.getText(), "Allow all");
-        Assert.assertEquals(buttonManageCookies.getText(), "Manage cookies");
+        Assert.assertEquals(buttonAllowAll.getText(), button1Text);
+        Assert.assertEquals(buttonManageCookies.getText(), button2Text);
 
         driver.quit();
     }
@@ -185,14 +185,23 @@ public class SviatlanaPiletskayaTest {
 
         String url = "https://openweathermap.org/";
         driver.get(url);
-        Thread.sleep(5000);
 
-        WebElement elementSupport = driver.findElement(By.xpath("//div[@id='support-dropdown']"));
+        Thread.sleep(2000);
+
+        WebElement elementSupport = driver.findElement(
+                By.xpath("//div[@id='support-dropdown']")
+        );
         elementSupport.click();
 
-        WebElement subMenuFaq = driver.findElement(By.xpath("//a[@href='/faq']"));
-        WebElement subMenuHowToStart = driver.findElement(By.xpath("//a[@href='/appid']"));
-        WebElement subMenuAskAQuestion = driver.findElement(By.xpath("//a[@href='https://home.openweathermap.org/questions']"));
+        WebElement subMenuFaq = driver.findElement(
+                By.xpath("//a[@href='/faq']")
+        );
+        WebElement subMenuHowToStart = driver.findElement(
+                By.xpath("//a[@href='/appid']")
+        );
+        WebElement subMenuAskAQuestion = driver.findElement(
+                By.xpath("//a[@href='https://home.openweathermap.org/questions']")
+        );
 
         Assert.assertEquals(driver.findElements(By.xpath("//ul[@class='dropdown-menu dropdown-visible']/li")).size(), 3);
         Assert.assertEquals(subMenuFaq.getText(), expectedResultFAQ);
@@ -207,7 +216,6 @@ public class SviatlanaPiletskayaTest {
 3. Заполнить поля Email, Subject, Message
 4. Не подтвердив CAPTCHA, нажать кнопку Submit
 5. Подтвердить, что пользователю будет показана ошибка “reCAPTCHA verification failed, please try again.”*/
-
     @Test
     public void testCaptchaErrorMessage() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "/Users/svetikpileckaa/Applications/ChromeDriver/chromedriver");
@@ -219,7 +227,7 @@ public class SviatlanaPiletskayaTest {
         String url = "https://openweathermap.org/";
         driver.get(url);
         driver.manage().window().maximize();
-        Thread.sleep(5000);
+        Thread.sleep(2000);
 
         WebElement elementSupport = driver.findElement(By.xpath("//div[@id='support-dropdown']"));
         elementSupport.click();
@@ -227,7 +235,7 @@ public class SviatlanaPiletskayaTest {
         WebElement subMenuAskAQuestion = driver.findElement(By.xpath("//a[@href='https://home.openweathermap.org/questions']"));
         subMenuAskAQuestion.click();
 
-        ArrayList<String> page = new ArrayList<String>(driver.getWindowHandles()); //переходит на новую страницу
+        ArrayList<String> page = new ArrayList<>(driver.getWindowHandles()); //переходит на новую страницу
         driver.switchTo().window(page.get(1));
 
         WebElement inputEmail = driver.findElement(By.xpath("//input[@class = 'form-control string email required']"));
@@ -253,70 +261,70 @@ public class SviatlanaPiletskayaTest {
         driver.quit();
     }
 
-    /*TC_11_06
-1.  Открыть базовую ссылку
-2.  Нажать пункт меню Support → Ask a question
-3.  Оставить значение по умолчанию в checkbox Are you an OpenWeather user?
-4. Оставить пустым поле Email
-5. Заполнить поля  Subject, Message
-6. Подтвердить CAPTCHA
-7. Нажать кнопку Submit
-8. Подтвердить, что в поле Email пользователю будет показана ошибка “can't be blank”*/
-    @Ignore
-    @Test
-    public void testCaptchaWithEmptyEmail() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "/Users/svetikpileckaa/Applications/ChromeDriver/chromedriver");
-        WebDriver driver = new ChromeDriver();
-
-        String message = "Test";
-        String expectedResultTextCAPTHA = "can't be blank";
-
-        String url = "https://openweathermap.org/";
-        driver.get(url);
-        driver.manage().window().maximize();
-        Thread.sleep(5000);
-
-        WebElement elementSupport = driver.findElement(By.xpath("//div[@id='support-dropdown']"));
-        elementSupport.click();
-
-        WebElement subMenuAskAQuestion = driver.findElement(By.xpath("//a[@href='https://home.openweathermap.org/questions']"));
-        subMenuAskAQuestion.click();
-
-        String mainWind = driver.getWindowHandle();
-        for (String windowsHandle : driver.getWindowHandles()) {
-            if (!mainWind.contentEquals(windowsHandle)) {
-                driver.switchTo().window(windowsHandle);
-                break;
-            }
-        }
-        Thread.sleep(4000);
-
-        WebElement selectField = driver.findElement(By.xpath("//select[@class='form-control select required']"));
-        selectField.click();
-
-
-        WebElement selectFieldChoice = driver.findElement(By.xpath("//option[1]"));
-        selectFieldChoice.click();
-
-        WebElement inputMessage = driver.findElement(By.xpath("//textarea[@class='form-control text required']"));
-        inputMessage.sendKeys(message);
-        Thread.sleep(4000);
-
-        WebElement reCAPTCHA = driver.findElement(
-                By.xpath("//div[@class='recaptcha-checkbox-border']")
-        );
-        reCAPTCHA.click();
-        Thread.sleep(4000);
-
-        WebElement submitButton = driver.findElement(By.xpath("//input[@type='submit'][@name='commit']"));
-        submitButton.click();
-        Thread.sleep(6000);
-
-        WebElement reCapthaText = driver.findElement(By.xpath("//span[@class='help-block'] "));
-
-        Assert.assertEquals(reCapthaText.getText(), expectedResultTextCAPTHA);
-        driver.quit();
-    }
+//  /*  *//*TC_11_06
+//1.  Открыть базовую ссылку
+//2.  Нажать пункт меню Support → Ask a question
+//3.  Оставить значение по умолчанию в checkbox Are you an OpenWeather user?
+//4. Оставить пустым поле Email
+//5. Заполнить поля  Subject, Message
+//6. Подтвердить CAPTCHA
+//7. Нажать кнопку Submit
+//8. Подтвердить, что в поле Email пользователю будет показана ошибка “can't be blank”*//*
+//    @Ignore
+//    @Test
+//   */ public void testCaptchaWithEmptyEmail() throws InterruptedException {
+//        System.setProperty("webdriver.chrome.driver", "/Users/svetikpileckaa/Applications/ChromeDriver/chromedriver");
+//        WebDriver driver = new ChromeDriver();
+//
+//        String message = "Test";
+//        String expectedResultTextCAPTHA = "can't be blank";
+//
+//        String url = "https://openweathermap.org/";
+//        driver.get(url);
+//        driver.manage().window().maximize();
+//        Thread.sleep(2000);
+//
+//        WebElement elementSupport = driver.findElement(By.xpath("//div[@id='support-dropdown']"));
+//        elementSupport.click();
+//
+//        WebElement subMenuAskAQuestion = driver.findElement(By.xpath("//a[@href='https://home.openweathermap.org/questions']"));
+//        subMenuAskAQuestion.click();
+//
+//        String mainWind = driver.getWindowHandle();
+//        for (String windowsHandle : driver.getWindowHandles()) {
+//            if (!mainWind.contentEquals(windowsHandle)) {
+//                driver.switchTo().window(windowsHandle);
+//                break;
+//            }
+//        }
+//        Thread.sleep(4000);
+//
+//        WebElement selectField = driver.findElement(By.xpath("//select[@class='form-control select required']"));
+//        selectField.click();
+//
+//        WebElement selectFieldChoice = driver.findElement(By.xpath("//option[1]"));
+//        selectFieldChoice.click();
+//
+//        WebElement inputMessage = driver.findElement(By.xpath("//textarea[@class='form-control text required']"));
+//        inputMessage.sendKeys(message);
+//        Thread.sleep(4000);
+//
+//        WebElement reCAPTCHA = driver.findElement(
+//                By.xpath("//div[@class='recaptcha-checkbox-border']")
+//        );
+//        reCAPTCHA.click();
+//
+//        Thread.sleep(4000);
+//
+//        WebElement submitButton = driver.findElement(By.xpath("//input[@type='submit'][@name='commit']"));
+//        submitButton.click();
+//        Thread.sleep(6000);
+//
+//        WebElement reCapthaText = driver.findElement(By.xpath("//span[@class='help-block'] "));
+//
+//        Assert.assertEquals(reCapthaText.getText(), expectedResultTextCAPTHA);
+//        driver.quit();
+//    }
 
     /*TC_11_07
 1.  Открыть базовую ссылку
@@ -328,23 +336,29 @@ public class SviatlanaPiletskayaTest {
         System.setProperty("webdriver.chrome.driver", "/Users/svetikpileckaa/Applications/ChromeDriver/chromedriver");
         WebDriver driver = new ChromeDriver();
 
-        char expectedResult = 'C';
+        String expectedResult = "C";
         String url = "https://openweathermap.org/";
         driver.get(url);
-        driver.manage().window().maximize();
+
         Thread.sleep(2000);
 
-        WebElement changeTempToF = driver.findElement(By.xpath("//div[@class='option'][contains(text(), 'F')]"));
+        WebElement changeTempToF = driver.findElement(
+                By.xpath("//div[@class='option'][contains(text(), 'F')]")
+        );
         changeTempToF.click();
+
         Thread.sleep(2000);
 
         WebElement changeTempToC = driver.findElement(By.xpath("//div[@class='option'][contains(text(), 'C')]"));
         changeTempToC.click();
+
         Thread.sleep(2000);
 
-        String tempC = driver.findElement(By.xpath("//span[@class='heading'][contains(text(), 'C')]")).getText();
-        char actualResult = tempC.charAt(tempC.length() - 1);
+        String tempC = driver.findElement(
+                By.xpath("//span[@class='heading'][contains(text(), 'C')]")
+        ).getText();
 
+        String actualResult = tempC.substring(tempC.length() - 1);
 
         Assert.assertEquals(actualResult, expectedResult);
         driver.quit();
@@ -387,22 +401,19 @@ public class SviatlanaPiletskayaTest {
         String cityName = "Rome";
         String searchValue = "find";
         driver.get(url);
+
         Thread.sleep(2000);
 
-        WebElement searchBar = driver.findElement(By.xpath("//div[@id='desktop-menu']//input[@placeholder='Weather in your city']"));
+        WebElement searchBar = driver.findElement(
+                By.xpath("//div[@id='desktop-menu']//input[@placeholder='Weather in your city']")
+        );
         searchBar.click();
         searchBar.sendKeys(cityName);
         searchBar.sendKeys(Keys.ENTER);
 
         Thread.sleep(2000);
 
-        String strUrl = driver.getCurrentUrl();
-
-        Boolean actualResult1 = false;
-
-        if (strUrl.contains(searchValue) && strUrl.contains(cityName)) {
-            actualResult1 = true;
-        }
+        boolean actualResult1 = driver.getCurrentUrl().contains(searchValue) && driver.getCurrentUrl().contains(cityName);
 
         Assert.assertTrue(actualResult1);
 
@@ -413,5 +424,4 @@ public class SviatlanaPiletskayaTest {
         Assert.assertEquals(actualResult2, "Rome");
         driver.quit();
     }
-
 }
