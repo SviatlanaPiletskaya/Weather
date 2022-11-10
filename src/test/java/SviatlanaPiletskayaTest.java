@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 
 public class SviatlanaPiletskayaTest {
-
     //TC_1_1  - Тест кейс:
     //1. Открыть страницу https://openweathermap.org/
     //2. Набрать в строке поиска город Paris
@@ -159,11 +158,11 @@ public class SviatlanaPiletskayaTest {
 //        Assert.assertEquals(driver.findElements(By.xpath("//div[@class='stick-footer-panel__btn-container']/*")).size(), 2);
 
         Assert.assertTrue(driver.findElement(
-                        By.xpath("//div[@class = 'stick-footer-panel__container']/*[text() = '" + button1Text + "]")
+                By.xpath("//div[@class = 'stick-footer-panel__container']/*[text() = '" + button1Text + "]")
         ).isDisplayed());
 
         Assert.assertTrue(driver.findElement(
-                        By.xpath("//div[@class = 'stick-footer-panel__container']/*[text() = '" + button2Text + "]")
+                By.xpath("//div[@class = 'stick-footer-panel__container']/*[text() = '" + button2Text + "]")
         ).isDisplayed());
 
         Assert.assertEquals(buttonAllowAll.getText(), button1Text);
@@ -393,7 +392,7 @@ public class SviatlanaPiletskayaTest {
 4.  Подтвердить, что вы перешли на страницу в ссылке которой содержатся слова “find” и “Rome”
 5. Подтвердить, что в строке поиска на новой странице вписано слово “Rome”*/
     @Test
-    public void searchForCityOfRome() throws InterruptedException {
+    public void testsearchForCityOfRome() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "/Users/svetikpileckaa/Applications/ChromeDriver/chromedriver");
         WebDriver driver = new ChromeDriver();
 
@@ -422,6 +421,37 @@ public class SviatlanaPiletskayaTest {
         ).getAttribute("value");
 
         Assert.assertEquals(actualResult2, "Rome");
+        driver.quit();
+    }
+
+    /*TC_11_10
+1.  Открыть базовую ссылку
+2.  Нажать на пункт меню API
+3.  Подтвердить, что на открывшейся странице пользователь видит 30 оранжевых кнопок*/
+    @Test
+    public void testAPIList() throws InterruptedException {
+        System.setProperty("webdriver.chrome.driver", "/Users/svetikpileckaa/Applications/ChromeDriver/chromedriver");
+        WebDriver driver = new ChromeDriver();
+
+        String url = "https://openweathermap.org/";
+        int expectedResult = 30;
+
+        driver.get(url);
+
+        Thread.sleep(2000);
+
+        WebElement sectionApi = driver.findElement(
+                By.xpath("//div[@id='desktop-menu']//a[@href='/api']")
+        );
+        sectionApi.click();
+
+        Thread.sleep(2000);
+
+        int actualResult = driver.findElements(
+                By.xpath("//a[contains(@class, 'orange')]")
+        ).size();
+
+        Assert.assertEquals(actualResult, expectedResult);
         driver.quit();
     }
 }
